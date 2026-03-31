@@ -1,0 +1,385 @@
+.site {
+  min-height: 100vh;
+  background: #f1f5f9;
+  color: #0f172a;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  scroll-behavior: smooth;
+}
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  background: rgba(2, 6, 23, 0.82);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.brand {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: 0.2px;
+}
+
+.topbar .nav-link {
+  color: #dbeafe;
+  font-weight: 600;
+  border-radius: 8px;
+  padding: 8px 10px;
+  margin: 0 2px;
+}
+
+.topbar .nav-link:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.profile-nav {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 4px 8px 4px 4px;
+}
+
+.avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #22c55e, #86efac);
+  color: #052e16;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.profile-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+}
+
+.profile-text strong {
+  color: #ffffff;
+  font-size: 12px;
+}
+
+.profile-text span {
+  color: #bfdbfe;
+  font-size: 11px;
+  text-transform: capitalize;
+}
+
+.logout-btn {
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  background: rgba(15, 23, 42, 0.75);
+  color: #e2e8f0;
+  border-radius: 8px;
+  padding: 4px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.hero {
+  background-size: cover;
+  background-position: center;
+  padding: 80px 0 92px;
+}
+
+.hero-content {
+  color: #f8fafc;
+}
+
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #93c5fd;
+  margin-bottom: 10px;
+}
+
+.hero h1 {
+  font-size: clamp(2rem, 5vw, 3.3rem);
+  line-height: 1.1;
+  margin-bottom: 12px;
+  max-width: 860px;
+}
+
+.lead-text {
+  color: #dbeafe;
+  font-size: clamp(1rem, 2.2vw, 1.35rem);
+  max-width: 800px;
+  line-height: 1.5;
+}
+
+.hero-side-card {
+  background: rgba(15, 23, 42, 0.48);
+  border: 1px solid rgba(191, 219, 254, 0.42);
+  border-radius: 14px;
+  padding: 16px;
+  color: #e2e8f0;
+}
+
+.hero-side-card h3 {
+  font-size: 1.1rem;
+  margin-bottom: 10px;
+  color: #ffffff;
+}
+
+.hero-side-card ul {
+  margin: 0;
+  padding-left: 18px;
+}
+
+.hero-side-card li {
+  margin-bottom: 8px;
+}
+
+.hero-profile {
+  margin-top: 18px;
+  border: 1px solid rgba(191, 219, 254, 0.45);
+  background: rgba(15, 23, 42, 0.45);
+  border-radius: 12px;
+  padding: 12px 14px;
+  width: fit-content;
+}
+
+.hero-profile h3 {
+  font-size: 1.15rem;
+  margin-bottom: 6px;
+}
+
+.hero-profile p {
+  margin: 0;
+  color: #e2e8f0;
+}
+
+.hero-profile-actions {
+  margin-top: 10px;
+}
+
+.section {
+  padding: 38px 0;
+}
+
+.kpi-section {
+  padding-top: 0;
+}
+
+.about-card {
+  background: #ffffff;
+  border: 1px solid #d9e2ef;
+  border-radius: 14px;
+  padding: 18px;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+}
+
+.about-card h3 {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+.about-card p {
+  color: #475569;
+  margin-bottom: 10px;
+  line-height: 1.6;
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 180px 180px;
+  gap: 10px;
+}
+
+.gallery-grid img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 12px;
+  border: 1px solid #d9e2ef;
+}
+
+.gallery-grid img:first-child {
+  grid-column: span 2;
+}
+
+.product-card {
+  background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+  border: 1px solid #d9e2ef;
+  border-radius: 14px;
+  padding: 16px;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+}
+
+.card-image {
+  width: 100%;
+  height: 130px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #dbe4f2;
+}
+
+.product-card h3 {
+  font-size: 1.05rem;
+  margin-bottom: 8px;
+}
+
+.product-card p {
+  margin: 0;
+  color: #475569;
+}
+
+.section-head h2 {
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  margin-bottom: 6px;
+}
+
+.section-head p {
+  margin-bottom: 14px;
+  color: #475569;
+}
+
+.kpi-row {
+  margin-top: -54px;
+}
+
+.kpi-card {
+  background: #ffffff;
+  border: 1px solid #dbe4f2;
+  border-radius: 12px;
+  padding: 14px;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.09);
+  height: 100%;
+}
+
+.kpi-card h4 {
+  font-size: 1rem;
+  margin-bottom: 5px;
+}
+
+.kpi-card p {
+  margin: 0;
+  color: #64748b;
+  font-size: 0.9rem;
+}
+
+.feature-card {
+  background: #ffffff;
+  border: 1px solid #d9e2ef;
+  border-radius: 14px;
+  padding: 18px;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+}
+
+.feature-card h3 {
+  font-size: 1.2rem;
+  margin-bottom: 8px;
+}
+
+.feature-card p {
+  margin: 0;
+  color: #475569;
+}
+
+.hub-card {
+  background: #ffffff;
+  border: 1px solid #d9e2ef;
+  border-radius: 14px;
+  padding: 16px;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+  display: flex;
+  flex-direction: column;
+}
+
+.hub-card h3 {
+  font-size: 1.1rem;
+  margin-bottom: 8px;
+}
+
+.hub-card p {
+  color: #475569;
+  margin-bottom: 14px;
+  flex: 1;
+}
+
+.footer {
+  margin-top: 12px;
+  padding: 24px 0 16px;
+  border-top: 1px solid #dbe4f2;
+  color: #e2e8f0;
+  background: #0f172a;
+}
+
+.footer-title {
+  font-size: 1.25rem;
+  color: #ffffff;
+  margin-bottom: 8px;
+}
+
+.footer-subtitle {
+  font-size: 1rem;
+  color: #ffffff;
+  margin-bottom: 8px;
+}
+
+.footer-text {
+  color: #cbd5e1;
+  font-size: 0.94rem;
+  line-height: 1.5;
+}
+
+.social-links {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.social-links a {
+  color: #93c5fd;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.social-links a:hover {
+  color: #ffffff;
+}
+
+.footer-line {
+  border-color: rgba(148, 163, 184, 0.3);
+  margin: 14px 0 10px;
+}
+
+.footer-copy {
+  color: #94a3b8;
+  font-size: 0.88rem;
+}
+
+@media (max-width: 992px) {
+  .profile-text {
+    display: none;
+  }
+
+  .kpi-row,
+  .hero {
+    margin-top: 0;
+  }
+
+  .topbar .nav-link {
+    margin: 2px 0;
+  }
+
+  .hero {
+    padding: 64px 0 68px;
+  }
+
+  .gallery-grid {
+    grid-template-rows: 150px 150px;
+  }
+}

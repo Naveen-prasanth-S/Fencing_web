@@ -1,0 +1,138 @@
+.login-page {
+  min-height: 100vh;
+  width: 100%;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 24px;
+  box-sizing: border-box;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.login-card {
+  width: min(500px, 100%);
+  background: linear-gradient(160deg, #eff6ff 0%, #dbeafe 100%);
+  border-radius: 18px;
+  padding: 28px 26px;
+  box-sizing: border-box;
+  box-shadow: 0 22px 42px rgba(0, 0, 0, 0.3);
+}
+
+.login-title {
+  margin: 0;
+  text-align: center;
+  font-size: 36px;
+  color: #0f172a;
+}
+
+.login-subtitle {
+  margin: 6px 0 22px;
+  text-align: center;
+  color: #334155;
+  font-size: 15px;
+}
+
+.field {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.field input {
+  width: 100%;
+  height: 48px;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  padding: 0 14px;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+.field input:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+}
+
+.password-wrap {
+  position: relative;
+}
+
+.password-wrap input {
+  padding-right: 44px;
+}
+
+.toggle-password {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #334155;
+  cursor: pointer;
+}
+
+.error-text {
+  display: block;
+  margin-top: 6px;
+  margin-left: 4px;
+  min-height: 16px;
+  line-height: 16px;
+  font-size: 12px;
+  color: #991b1b;
+}
+
+.login-btn {
+  width: 100%;
+  height: 48px;
+  border: none;
+  border-radius: 28px;
+  margin-top: 8px;
+  background: #2563eb;
+  color: #ffffff;
+  font-size: 24px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.login-btn:hover {
+  background: #1d4ed8;
+}
+
+.signup-text {
+  margin: 18px 0 0;
+  text-align: center;
+  color: #334155;
+  font-size: 20px;
+}
+
+.signup-text span {
+  color: #2563eb;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+@media (max-width: 640px) {
+  .login-page {
+    padding: 14px;
+  }
+
+  .login-card {
+    padding: 20px 16px;
+  }
+
+  .login-title {
+    font-size: 30px;
+  }
+
+  .login-btn {
+    font-size: 20px;
+  }
+
+  .signup-text {
+    font-size: 18px;
+  }
+}

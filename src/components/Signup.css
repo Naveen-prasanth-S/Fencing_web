@@ -1,0 +1,162 @@
+.page {
+  min-height: 100vh;
+  width: 100%;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 24px;
+  box-sizing: border-box;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.signup-card {
+  width: min(560px, 100%);
+  background: linear-gradient(160deg, #fef3c7 0%, #fde68a 100%);
+  border-radius: 18px;
+  padding: 28px 26px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  box-sizing: border-box;
+}
+
+.signup-title {
+  margin: 0 0 6px;
+  text-align: center;
+  font-size: 34px;
+  line-height: 1.1;
+  color: #111827;
+}
+
+.signup-subtitle {
+  margin: 0 0 20px;
+  text-align: center;
+  color: #374151;
+  font-size: 14px;
+}
+
+.role-switch {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.role-btn {
+  border: 1px solid #bfdbfe;
+  border-radius: 12px;
+  padding: 10px 14px;
+  font-weight: 700;
+  cursor: pointer;
+  background: #eff6ff;
+  color: #1e3a8a;
+}
+
+.role-btn.active {
+  background: #2563eb;
+  color: #ffffff;
+  border-color: #2563eb;
+}
+
+.field {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.field input {
+  width: 100%;
+  height: 48px;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  padding: 0 14px;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+.field input:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+}
+
+.password-wrap {
+  position: relative;
+}
+
+.password-wrap input {
+  padding-right: 44px;
+}
+
+.toggle-eye {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #374151;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.error-text {
+  display: block;
+  margin-top: 6px;
+  margin-left: 4px;
+  min-height: 16px;
+  line-height: 16px;
+  font-size: 12px;
+  color: #991b1b;
+}
+
+.submit {
+  width: 100%;
+  height: 48px;
+  border: none;
+  border-radius: 28px;
+  background: #2563eb;
+  color: #ffffff;
+  font-size: 24px;
+  font-weight: 800;
+  cursor: pointer;
+  margin-top: 8px;
+}
+
+.submit:hover {
+  background: #1d4ed8;
+}
+
+.login-text {
+  margin: 18px 0 0;
+  text-align: center;
+  color: #374151;
+  font-size: 20px;
+}
+
+.login-text span {
+  color: #2563eb;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+@media (max-width: 640px) {
+  .page {
+    padding: 14px;
+  }
+
+  .signup-card {
+    padding: 20px 16px;
+  }
+
+  .signup-title {
+    font-size: 28px;
+  }
+
+  .submit {
+    font-size: 20px;
+  }
+
+  .login-text {
+    font-size: 18px;
+  }
+}

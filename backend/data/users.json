@@ -1,0 +1,26 @@
+[
+  {
+    "id": "f5389691-cdcc-4f5e-8ea6-b8c400e35f2c",
+    "name": "naveen",
+    "email": "naveen@gmail.com",
+    "role": "admin",
+    "passwordHash": "0b0bb1dfd8ab84f400a9ef301854cdb7:df8a485b91f5e7a2541249e70c534a1a6997baf1ebe6a1d3232e41df96f154422d44f97fcdb8f89d378658deffffa592edb98ea22a168a6eee6a8211c4a8dc98",
+    "createdAt": "2026-02-17T06:40:45.596Z"
+  },
+  {
+    "id": "b55b128b-335b-4a6e-950a-a01fd1e1fd71",
+    "name": "Hari",
+    "email": "hari@gmail.com",
+    "role": "admin",
+    "passwordHash": "233c339406c51b9ddc091cd7f6ea26b5:9df6399cf78d3a375c6b0749436fe6f809406d822c8f562f55eb1d7cae33127a9e36081c9467e0fe959217a1d0043925e44c2098ad1476bafe30f963992dc1f0",
+    "createdAt": "2026-02-17T06:45:51.981Z"
+  },
+  {
+    "id": "fe1aefbc-fcce-4e09-8f92-6ea4bf1a00ff",
+    "name": "Ram",
+    "email": "ram@gmail.com",
+    "role": "admin",
+    "passwordHash": "892db12eeefaac34c611dda8e3506f32:2cdd22b005d0cd723d8df2313dc5253f07c89423619ae3914e854c855150808f307d49ed6161f56941fc3b418957196fd5a8b2517706fd34553d0189ec7e3233",
+    "createdAt": "2026-02-18T07:07:48.207Z"
+  }
+]
