@@ -156,7 +156,7 @@ function Home() {
         <div className="container-xl">
           <div className="row g-3 align-items-start">
             <div className="col-lg-5">
-              <h3 className="footer-title">FencingMS</h3>
+              <h3 className="footer-title">ATHANURAMMAN FENCINGS</h3>
               <p className="footer-text mb-2">
                 Professional fencing solutions for homes, commercial spaces, and
                 industrial sites.
@@ -186,7 +186,9 @@ function Home() {
           </div>
 
           <hr className="footer-line" />
-          <p className="footer-copy mb-0">© {new Date().getFullYear()} FencingMS. All rights reserved.</p>
+          <p className="footer-copy mb-0">
+            &copy; {new Date().getFullYear()} ATHANURAMMAN FENCINGS. All rights reserved.
+          </p>
         </div>
       </footer>
     </div>

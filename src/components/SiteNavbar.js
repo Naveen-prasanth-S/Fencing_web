@@ -9,7 +9,7 @@ function SiteNavbar({ authUser, onLogout, collapseId = "siteNavbar" }) {
   return (
     <header className="topbar navbar navbar-expand-lg">
       <div className="container-xl">
-        <span className="brand navbar-brand mb-0">FencingMS</span>
+        <span className="brand navbar-brand mb-0">ATHANURAMMAN FENCINGS</span>
 
         <button
           className="navbar-toggler bg-light"
