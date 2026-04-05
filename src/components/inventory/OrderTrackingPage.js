@@ -5,6 +5,7 @@ function OrderTrackingPage() {
   const {
     orderForm,
     orders,
+    ordersLoading,
     handleOrderChange,
     handleAddOrder,
     handleMarkDelivered,
@@ -14,6 +15,7 @@ function OrderTrackingPage() {
     <OrdersPanel
       orderForm={orderForm}
       orders={orders}
+      loading={ordersLoading}
       onOrderChange={handleOrderChange}
       onAddOrder={handleAddOrder}
       onMarkDelivered={handleMarkDelivered}

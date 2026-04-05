@@ -1,4 +1,11 @@
-function OrdersPanel({ orderForm, orders, onOrderChange, onAddOrder, onMarkDelivered }) {
+function OrdersPanel({
+  orderForm,
+  orders,
+  loading,
+  onOrderChange,
+  onAddOrder,
+  onMarkDelivered,
+}) {
   return (
     <>
       <div className="panel-card">
@@ -40,7 +47,11 @@ function OrdersPanel({ orderForm, orders, onOrderChange, onAddOrder, onMarkDeliv
             </tr>
           </thead>
           <tbody>
-            {orders.length === 0 ? (
+            {loading ? (
+              <tr>
+                <td colSpan={5} className="loading-text">Loading orders...</td>
+              </tr>
+            ) : orders.length === 0 ? (
               <tr>
                 <td colSpan={5} className="loading-text">No orders added yet.</td>
               </tr>

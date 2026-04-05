@@ -1,10 +1,15 @@
-﻿import "./InventoryPages.css";
+import "./InventoryPages.css";
 import { Link, NavLink, Outlet, useNavigate } from "react-router-dom";
 import { useEffect, useMemo, useState } from "react";
 import panelBg from "../../assets/bg.webp";
 import {
   createInventoryItem,
+  createOrder,
+  createStaffLog,
   getInventory,
+  getOrders,
+  getStaffLogs,
+  markOrderDelivered,
   removeInventoryItem,
   updateInventoryItem,
 } from "../../services/inventoryApi";
@@ -32,22 +37,10 @@ function InventoryLayout() {
     quantity: "",
     status: "In Progress",
   });
-  const [orders, setOrders] = useState(() => {
-    try {
-      const raw = sessionStorage.getItem("stockOrders");
-      return raw ? JSON.parse(raw) : [];
-    } catch {
-      return [];
-    }
-  });
-  const [staffLogs, setStaffLogs] = useState(() => {
-    try {
-      const raw = sessionStorage.getItem("staffLogs");
-      return raw ? JSON.parse(raw) : [];
-    } catch {
-      return [];
-    }
-  });
+  const [orders, setOrders] = useState([]);
+  const [staffLogs, setStaffLogs] = useState([]);
+  const [ordersLoading, setOrdersLoading] = useState(false);
+  const [staffLogsLoading, setStaffLogsLoading] = useState(false);
 
   useEffect(() => {
     const rawUser = sessionStorage.getItem("authUser");
@@ -60,27 +53,29 @@ function InventoryLayout() {
   }, []);
 
   useEffect(() => {
-    const fetchInventory = async () => {
+    const fetchInventoryData = async () => {
       setLoading(true);
+      setOrdersLoading(true);
+      setStaffLogsLoading(true);
       try {
-        const loadedItems = await getInventory();
+        const [loadedItems, loadedOrders, loadedStaffLogs] = await Promise.all([
+          getInventory(),
+          getOrders(),
+          getStaffLogs(),
+        ]);
         setItems(loadedItems);
+        setOrders(loadedOrders);
+        setStaffLogs(loadedStaffLogs);
       } catch (error) {
         alert(error.message || "Server not reachable. Please start backend.");
       } finally {
         setLoading(false);
+        setOrdersLoading(false);
+        setStaffLogsLoading(false);
       }
     };
-    fetchInventory();
+    fetchInventoryData();
   }, []);
-
-  useEffect(() => {
-    sessionStorage.setItem("stockOrders", JSON.stringify(orders));
-  }, [orders]);
-
-  useEffect(() => {
-    sessionStorage.setItem("staffLogs", JSON.stringify(staffLogs));
-  }, [staffLogs]);
 
   const handleLogout = () => {
     sessionStorage.removeItem("authUser");
@@ -153,12 +148,23 @@ function InventoryLayout() {
     }
   };
 
-  const updateQuantity = (id, delta) => {
-    setItems((prev) =>
-      prev.map((x) =>
-        x.id === id ? { ...x, quantity: Math.max(0, x.quantity + delta) } : x
-      )
-    );
+  const updateQuantity = async (id, delta) => {
+    const currentItem = items.find((item) => item.id === id);
+    if (!currentItem) return;
+
+    const nextQuantity = Math.max(0, Number(currentItem.quantity || 0) + delta);
+
+    try {
+      const updated = await updateInventoryItem(id, {
+        itemName: currentItem.itemName,
+        category: currentItem.category,
+        quantity: nextQuantity,
+        minLevel: currentItem.minLevel,
+      });
+      setItems((prev) => prev.map((item) => (item.id === id ? updated : item)));
+    } catch (error) {
+      alert(error.message || "Server not reachable. Please start backend.");
+    }
   };
 
   const handleOrderChange = (e) => {
@@ -166,7 +172,7 @@ function InventoryLayout() {
     setOrderForm((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleAddOrder = () => {
+  const handleAddOrder = async () => {
     const itemName = orderForm.itemName.trim();
     const staffName = orderForm.staffName.trim();
     const quantity = Number(orderForm.quantity);
@@ -175,39 +181,34 @@ function InventoryLayout() {
       return;
     }
 
-    setOrders((prev) => [
-      {
-        id: Date.now(),
-        itemName,
-        staffName,
-        quantity,
-        status: "Ordered",
-        createdAt: new Date().toLocaleString(),
-      },
-      ...prev,
-    ]);
-    setOrderForm({ itemName: "", quantity: "", staffName: "" });
+    try {
+      const newOrder = await createOrder({ itemName, staffName, quantity });
+      setOrders((prev) => [newOrder, ...prev]);
+      setOrderForm({ itemName: "", quantity: "", staffName: "" });
+    } catch (error) {
+      alert(error.message || "Server not reachable. Please start backend.");
+    }
   };
 
-  const handleMarkDelivered = (id) => {
+  const handleMarkDelivered = async (id) => {
     const current = orders.find((x) => x.id === id);
     if (!current || current.status === "Delivered") return;
 
-    setOrders((prev) =>
-      prev.map((x) =>
-        x.id === id
-          ? { ...x, status: "Delivered", deliveredAt: new Date().toLocaleString() }
-          : x
-      )
-    );
+    try {
+      const { order, inventoryItem } = await markOrderDelivered(id);
 
-    setItems((prev) =>
-      prev.map((x) =>
-        x.itemName.toLowerCase() === current.itemName.toLowerCase()
-          ? { ...x, quantity: Math.max(0, x.quantity - current.quantity) }
-          : x
-      )
-    );
+      if (order) {
+        setOrders((prev) => prev.map((item) => (item.id === id ? order : item)));
+      }
+
+      if (inventoryItem) {
+        setItems((prev) =>
+          prev.map((item) => (item.id === inventoryItem.id ? inventoryItem : item))
+        );
+      }
+    } catch (error) {
+      alert(error.message || "Server not reachable. Please start backend.");
+    }
   };
 
   const handleStaffChange = (e) => {
@@ -215,7 +216,7 @@ function InventoryLayout() {
     setStaffForm((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleAddStaffLog = () => {
+  const handleAddStaffLog = async () => {
     const staffName = staffForm.staffName.trim();
     const task = staffForm.task.trim();
     const itemName = staffForm.itemName.trim();
@@ -225,26 +226,25 @@ function InventoryLayout() {
       return;
     }
 
-    setStaffLogs((prev) => [
-      {
-        id: Date.now(),
+    try {
+      const newLog = await createStaffLog({
         staffName,
         task,
         itemName,
         quantity,
         status: staffForm.status,
-        updatedAt: new Date().toLocaleString(),
-      },
-      ...prev,
-    ]);
-
-    setStaffForm({
-      staffName: "",
-      task: "",
-      itemName: "",
-      quantity: "",
-      status: "In Progress",
-    });
+      });
+      setStaffLogs((prev) => [newLog, ...prev]);
+      setStaffForm({
+        staffName: "",
+        task: "",
+        itemName: "",
+        quantity: "",
+        status: "In Progress",
+      });
+    } catch (error) {
+      alert(error.message || "Server not reachable. Please start backend.");
+    }
   };
 
   const totals = useMemo(() => {
@@ -277,6 +277,8 @@ function InventoryLayout() {
 
   const contextValue = {
     loading,
+    ordersLoading,
+    staffLogsLoading,
     items,
     totals,
     form,
@@ -364,9 +366,6 @@ function InventoryLayout() {
           <aside className="left-menu">
             <NavLink to="/stock/dashboard" className={({ isActive }) => `process-link ${isActive ? "active" : ""}`}>
               Dashboard
-            </NavLink>
-            <NavLink to="/stock/entry" className={({ isActive }) => `process-link ${isActive ? "active" : ""}`}>
-              Stock Entry
             </NavLink>
             <NavLink to="/stock/list" className={({ isActive }) => `process-link ${isActive ? "active" : ""}`}>
               Stock List

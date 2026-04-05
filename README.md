@@ -1,70 +1,165 @@
-# Getting Started with Create React App
+# FencingMS
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+FencingMS is a fencing company management app with customer pages, admin and staff login, stock tracking, order tracking, staff activity updates, fence billing calculation, and OTP verification.
 
-## Available Scripts
+## Project Structure
 
-In the project directory, you can run:
+- `src/` and the root `package.json`: React frontend
+- `backend/`: Express and MongoDB backend API
+- `build/`: production frontend build output
 
-### `npm start`
+## Tech Stack
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- React
+- React Router
+- Express
+- MongoDB with Mongoose
+- Nodemailer
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Prerequisites
 
-### `npm test`
+Install these before running the project:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- Node.js 18 or later
+- npm
+- MongoDB local server or MongoDB Atlas
 
-### `npm run build`
+## Environment Setup
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Frontend
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+1. Copy `.env.example` to `.env`.
+2. Set the backend URL:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```env
+REACT_APP_API_URL=http://localhost:5000
+```
 
-### `npm run eject`
+### Backend
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+1. Copy `backend/.env.example` to `backend/.env`.
+2. Update the values for your environment:
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```env
+PORT=5000
+CORS_ORIGIN=http://localhost:3000
+MONGO_URI=mongodb://127.0.0.1:27017/fencingms
+SMTP_USER=
+SMTP_PASS=
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Notes:
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+- `SMTP_USER` and `SMTP_PASS` are optional. If they are empty, OTP is generated in local mode and not sent by email.
+- If you deploy the frontend and backend to different domains, update `CORS_ORIGIN` and `REACT_APP_API_URL` to the deployed URLs.
 
-## Learn More
+## Run The Project
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Backend
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Open a terminal in `backend/` and run:
 
-### Code Splitting
+```bash
+npm install
+npm start
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+The backend runs on `http://localhost:5000` by default.
 
-### Analyzing the Bundle Size
+### Frontend
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+Open another terminal in the project root and run:
 
-### Making a Progressive Web App
+```bash
+npm install
+npm start
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+The frontend runs on `http://localhost:3000` by default.
 
-### Advanced Configuration
+## Production Build
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+To create the frontend production build:
 
-### Deployment
+```bash
+npm run build
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+This creates the static frontend in `build/`.
 
-### `npm run build` fails to minify
+## Deploy On Render
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+This project is now prepared for a single-service Render deployment where the Express backend also serves the built React frontend.
+
+Files added for deployment:
+
+- `render.yaml`
+- `src/services/apiBaseUrl.js`
+
+### Render Steps
+
+1. Push this project to GitHub.
+2. In Render, create a new Blueprint or Web Service from the repository.
+3. Render can use the settings from `render.yaml`.
+4. Add these environment variables in Render:
+
+```env
+MONGO_URI=your-mongodb-connection-string
+SMTP_USER=your-email@example.com
+SMTP_PASS=your-email-app-password
+```
+
+Notes:
+
+- `SMTP_USER` and `SMTP_PASS` are optional.
+- `REACT_APP_API_URL` is not required for same-domain Render deployment.
+- The health check path is `/health`.
+
+### Build And Start Commands
+
+If you enter settings manually in Render, use:
+
+```bash
+Build Command: npm install && npm --prefix backend install && npm run build
+Start Command: node backend/server.js
+```
+
+After deployment, Render will give you one public website link for the full app.
+
+## Customer Handoff
+
+If you want to give this project to the customer, share:
+
+- the full project source code
+- `.env.example`
+- `backend/.env.example`
+- this `README.md`
+
+Do not share:
+
+- `node_modules/`
+- real `.env` files with passwords or database credentials
+- temporary local files
+
+Recommended handoff steps:
+
+1. Zip the project folder without `node_modules/`.
+2. Include this README.
+3. Tell the customer to run backend first, then frontend.
+4. Share any real production credentials separately and securely.
+
+## Useful Commands
+
+From the project root:
+
+```bash
+npm start
+npm run build
+npm test
+```
+
+From `backend/`:
+
+```bash
+npm start
+```

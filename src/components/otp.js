@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { API_BASE_URL } from "../services/apiBaseUrl";
 import "./Otp.css";
 
 export default function Otp() {
@@ -25,7 +26,6 @@ export default function Otp() {
     }
   };
 
-  // ✅ UPDATED: verify OTP via backend
   const handleVerify = async () => {
     const enteredOtp = otp.join("");
     const email = localStorage.getItem("signupEmail");
@@ -36,7 +36,7 @@ export default function Otp() {
     }
 
     try {
-      const res = await fetch("http://localhost:5000/verify-otp", {
+      const res = await fetch(`${API_BASE_URL}/verify-otp`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, otp: enteredOtp }),
@@ -45,11 +45,11 @@ export default function Otp() {
       const data = await res.json();
 
       if (data.success) {
-        alert("OTP Verified Successfully ✅");
+        alert("OTP verified successfully");
         localStorage.removeItem("signupEmail");
         navigate("/login");
       } else {
-        alert("Invalid OTP ❌");
+        alert("Invalid OTP");
       }
     } catch {
       alert("Server error");

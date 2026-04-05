@@ -3,6 +3,7 @@ const cors = require("cors");
 const dotenv = require("dotenv");
 const nodemailer = require("nodemailer");
 const crypto = require("crypto");
+const fs = require("fs");
 const mongoose = require("mongoose");
 const path = require("path");
 const {
@@ -17,6 +18,8 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 const MONGO_URI = process.env.MONGO_URI;
 const otpStore = {};
+const CLIENT_BUILD_PATH = path.join(__dirname, "..", "build");
+const CLIENT_INDEX_PATH = path.join(CLIENT_BUILD_PATH, "index.html");
 const DEFAULT_ALLOWED_ORIGINS = [
   "http://localhost:3000",
   "http://localhost:3001",
@@ -32,18 +35,28 @@ const allowedOrigins = Array.from(
       .filter(Boolean),
   ])
 );
+const hasClientBuild = fs.existsSync(CLIENT_INDEX_PATH);
+const isSameOriginRequest = (req, origin) => {
+  if (!origin) return true;
 
-app.use(
+  try {
+    return new URL(origin).host === req.get("host");
+  } catch (_error) {
+    return false;
+  }
+};
+
+app.use((req, res, next) => {
   cors({
     origin(origin, callback) {
-      if (!origin || allowedOrigins.includes(origin)) {
+      if (isSameOriginRequest(req, origin) || allowedOrigins.includes(origin)) {
         return callback(null, true);
       }
 
       return callback(new Error(`Origin ${origin} is not allowed by CORS`));
     },
-  })
-);
+  })(req, res, next);
+});
 app.use(express.json());
 
 const normalizeEmail = (email) => String(email || "").trim().toLowerCase();
@@ -82,10 +95,55 @@ const inventorySchema = new mongoose.Schema(
 
 const InventoryItem = mongoose.model("InventoryItem", inventorySchema);
 
+const orderSchema = new mongoose.Schema(
+  {
+    itemName: { type: String, required: true, trim: true },
+    quantity: { type: Number, required: true, min: 1 },
+    staffName: { type: String, required: true, trim: true },
+    status: {
+      type: String,
+      required: true,
+      enum: ["Ordered", "Delivered"],
+      default: "Ordered",
+    },
+    deliveredAt: { type: Date, default: null },
+  },
+  { timestamps: true }
+);
+
+const staffLogSchema = new mongoose.Schema(
+  {
+    staffName: { type: String, required: true, trim: true },
+    task: { type: String, required: true, trim: true },
+    itemName: { type: String, required: true, trim: true },
+    quantity: { type: Number, required: true, min: 0 },
+    status: {
+      type: String,
+      required: true,
+      enum: ["In Progress", "Completed", "Pending"],
+      default: "In Progress",
+    },
+  },
+  { timestamps: true }
+);
+
+const StockOrder = mongoose.model("StockOrder", orderSchema);
+const StaffLog = mongoose.model("StaffLog", staffLogSchema);
+
 const sanitizeInventory = ({ _id, __v, ...safeItem }) => ({
   id: String(_id),
   ...safeItem,
 });
+const sanitizeOrder = ({ _id, __v, ...safeOrder }) => ({
+  id: String(_id),
+  ...safeOrder,
+});
+const sanitizeStaffLog = ({ _id, __v, ...safeLog }) => ({
+  id: String(_id),
+  ...safeLog,
+});
+const escapeRegex = (value) =>
+  String(value || "").replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
 function hashPassword(password) {
   const salt = crypto.randomBytes(16).toString("hex");
@@ -276,6 +334,200 @@ app.post("/inventory", async (req, res) => {
   }
 });
 
+app.get("/inventory/orders", async (_req, res) => {
+  try {
+    const orders = await StockOrder.find().sort({ createdAt: -1 });
+    return res.json({
+      success: true,
+      orders: orders.map((order) => sanitizeOrder(order.toObject())),
+    });
+  } catch (_error) {
+    return res.status(500).json({
+      success: false,
+      message: "Failed to fetch stock orders",
+    });
+  }
+});
+
+app.post("/inventory/orders", async (req, res) => {
+  try {
+    const { itemName, quantity, staffName } = req.body || {};
+    const name = String(itemName || "").trim();
+    const staff = String(staffName || "").trim();
+    const qty = Number(quantity);
+
+    if (!name || !staff || Number.isNaN(qty) || qty <= 0) {
+      return res.status(400).json({
+        success: false,
+        message: "itemName, quantity, and staffName are required",
+      });
+    }
+
+    const newOrder = await StockOrder.create({
+      itemName: name,
+      quantity: qty,
+      staffName: staff,
+      status: "Ordered",
+    });
+
+    return res.status(201).json({
+      success: true,
+      order: sanitizeOrder(newOrder.toObject()),
+    });
+  } catch (_error) {
+    return res.status(500).json({
+      success: false,
+      message: "Failed to create stock order",
+    });
+  }
+});
+
+app.patch("/inventory/orders/:id/deliver", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const order = await StockOrder.findById(id);
+
+    if (!order) {
+      return res.status(404).json({
+        success: false,
+        message: "Order not found",
+      });
+    }
+
+    let inventoryItem = null;
+
+    if (order.status !== "Delivered") {
+      order.status = "Delivered";
+      order.deliveredAt = new Date();
+      await order.save();
+
+      inventoryItem = await InventoryItem.findOne({
+        itemName: { $regex: `^${escapeRegex(order.itemName)}$`, $options: "i" },
+      });
+
+      if (inventoryItem) {
+        inventoryItem.quantity = Math.max(
+          0,
+          Number(inventoryItem.quantity || 0) - Number(order.quantity || 0)
+        );
+        await inventoryItem.save();
+      }
+    }
+
+    return res.json({
+      success: true,
+      order: sanitizeOrder(order.toObject()),
+      inventoryItem: inventoryItem
+        ? sanitizeInventory(inventoryItem.toObject())
+        : null,
+    });
+  } catch (_error) {
+    return res.status(500).json({
+      success: false,
+      message: "Failed to update order status",
+    });
+  }
+});
+
+app.get("/inventory/staff-logs", async (_req, res) => {
+  try {
+    const logs = await StaffLog.find().sort({ createdAt: -1 });
+    return res.json({
+      success: true,
+      logs: logs.map((log) => sanitizeStaffLog(log.toObject())),
+    });
+  } catch (_error) {
+    return res.status(500).json({
+      success: false,
+      message: "Failed to fetch staff logs",
+    });
+  }
+});
+
+app.post("/inventory/staff-logs", async (req, res) => {
+  try {
+    const { staffName, task, itemName, quantity, status } = req.body || {};
+    const staff = String(staffName || "").trim();
+    const taskName = String(task || "").trim();
+    const item = String(itemName || "").trim();
+    const qty = Number(quantity);
+    const nextStatus = ["In Progress", "Completed", "Pending"].includes(status)
+      ? status
+      : "In Progress";
+
+    if (!staff || !taskName || !item || Number.isNaN(qty) || qty < 0) {
+      return res.status(400).json({
+        success: false,
+        message: "staffName, task, itemName, and quantity are required",
+      });
+    }
+
+    const newLog = await StaffLog.create({
+      staffName: staff,
+      task: taskName,
+      itemName: item,
+      quantity: qty,
+      status: nextStatus,
+    });
+
+    return res.status(201).json({
+      success: true,
+      log: sanitizeStaffLog(newLog.toObject()),
+    });
+  } catch (_error) {
+    return res.status(500).json({
+      success: false,
+      message: "Failed to create staff log",
+    });
+  }
+});
+
+app.patch("/inventory/staff-logs/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const currentLog = await StaffLog.findById(id);
+
+    if (!currentLog) {
+      return res.status(404).json({
+        success: false,
+        message: "Staff log not found",
+      });
+    }
+
+    const nextTask = String(req.body?.task ?? currentLog.task).trim();
+    const nextItemName = String(req.body?.itemName ?? currentLog.itemName).trim();
+    const nextQuantity = Number(req.body?.quantity ?? currentLog.quantity);
+    const nextStatus = ["In Progress", "Completed", "Pending"].includes(
+      req.body?.status
+    )
+      ? req.body.status
+      : currentLog.status;
+
+    if (!nextTask || !nextItemName || Number.isNaN(nextQuantity) || nextQuantity < 0) {
+      return res.status(400).json({
+        success: false,
+        message: "task, itemName, and quantity must be valid",
+      });
+    }
+
+    currentLog.task = nextTask;
+    currentLog.itemName = nextItemName;
+    currentLog.quantity = nextQuantity;
+    currentLog.status = nextStatus;
+    await currentLog.save();
+
+    return res.json({
+      success: true,
+      log: sanitizeStaffLog(currentLog.toObject()),
+    });
+  } catch (_error) {
+    return res.status(500).json({
+      success: false,
+      message: "Failed to update staff log",
+    });
+  }
+});
+
 app.delete("/inventory/:id", async (req, res) => {
   try {
     const { id } = req.params;
@@ -434,6 +686,32 @@ app.post("/verify-otp", (req, res) => {
   return res.status(400).json({ success: false, message: "Invalid OTP" });
 });
 
+if (hasClientBuild) {
+  app.use(express.static(CLIENT_BUILD_PATH));
+
+  app.get("*", (req, res, next) => {
+    if (!req.accepts("html")) {
+      return next();
+    }
+
+    return res.sendFile(CLIENT_INDEX_PATH);
+  });
+}
+
+app.use((req, res) => {
+  return res.status(404).json({
+    success: false,
+    message: `Route not found: ${req.method} ${req.originalUrl}`,
+  });
+});
+
+app.use((error, _req, res, _next) => {
+  return res.status(500).json({
+    success: false,
+    message: error?.message || "Internal server error",
+  });
+});
+
 async function startServer() {
   if (!MONGO_URI) {
     throw new Error("MONGO_URI is missing. Set it in backend/.env");
@@ -443,6 +721,9 @@ async function startServer() {
   app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
     console.log("MongoDB connected");
+    if (hasClientBuild) {
+      console.log(`Serving frontend from ${CLIENT_BUILD_PATH}`);
+    }
   });
 }
 

@@ -1,4 +1,10 @@
-function StaffPanel({ staffForm, staffLogs, onStaffChange, onAddStaffLog }) {
+function StaffPanel({
+  staffForm,
+  staffLogs,
+  loading,
+  onStaffChange,
+  onAddStaffLog,
+}) {
   return (
     <>
       <div className="panel-card">
@@ -30,7 +36,11 @@ function StaffPanel({ staffForm, staffLogs, onStaffChange, onAddStaffLog }) {
             </tr>
           </thead>
           <tbody>
-            {staffLogs.length === 0 ? (
+            {loading ? (
+              <tr>
+                <td colSpan={5} className="loading-text">Loading staff logs...</td>
+              </tr>
+            ) : staffLogs.length === 0 ? (
               <tr>
                 <td colSpan={5} className="loading-text">No staff logs yet.</td>
               </tr>

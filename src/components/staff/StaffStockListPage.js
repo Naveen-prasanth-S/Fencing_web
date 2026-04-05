@@ -1,32 +1,25 @@
-import { useEffect, useState } from "react";
+import { useOutletContext } from "react-router-dom";
 import "../inventory/InventoryPages.css";
-import { getInventory } from "../../services/inventoryApi";
 
 function StaffStockListPage() {
-  const [loading, setLoading] = useState(false);
-  const [items, setItems] = useState([]);
-
-  useEffect(() => {
-    const fetchItems = async () => {
-      setLoading(true);
-      try {
-        const data = await getInventory();
-        setItems(data);
-      } catch (error) {
-        alert(error.message || "Failed to load stock details.");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchItems();
-  }, []);
+  const { loading, inventoryItems, staffMetrics } = useOutletContext();
 
   return (
     <div className="stock-dash-page">
       <div className="panel-card">
         <h3>Staff Stock List</h3>
         <p className="page-note">View available stock and low stock alerts.</p>
+
+        <div className="kpi-grid mb-3">
+          <div className="kpi-card">
+            <span>Total Items</span>
+            <strong>{inventoryItems.length}</strong>
+          </div>
+          <div className="kpi-card warning">
+            <span>Low Stock Alerts</span>
+            <strong>{staffMetrics.lowStock}</strong>
+          </div>
+        </div>
 
         {loading ? (
           <p className="loading-text">Loading inventory...</p>
@@ -42,12 +35,12 @@ function StaffStockListPage() {
               </tr>
             </thead>
             <tbody>
-              {items.length === 0 ? (
+              {inventoryItems.length === 0 ? (
                 <tr>
                   <td colSpan={5} className="loading-text">No stock available.</td>
                 </tr>
               ) : (
-                items.map((item) => {
+                inventoryItems.map((item) => {
                   const isLow = item.quantity <= item.minLevel;
                   return (
                     <tr key={item.id}>

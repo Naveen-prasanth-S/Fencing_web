@@ -3,8 +3,7 @@ import "./Login.css";
 import bgImage from "../assets/lbg.jpg";
 import { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-
-const API_BASE_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
+import { API_BASE_URL } from "../services/apiBaseUrl";
 
 export default function Login() {
   const navigate = useNavigate();

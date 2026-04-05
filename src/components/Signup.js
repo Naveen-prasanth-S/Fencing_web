@@ -3,8 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "./Signup.css";
 import bgImage from "../assets/bg.webp";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-
-const API_BASE_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
+import { API_BASE_URL } from "../services/apiBaseUrl";
 const NAME_REGEX = /^[A-Za-z ]{3,50}$/;
 const GMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
 const PASSWORD_REGEX =

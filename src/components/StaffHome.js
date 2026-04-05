@@ -5,7 +5,7 @@ import bgImage from "../assets/bg.webp";
 import siteImage from "../assets/lbg.jpg";
 
 function StaffHome() {
-  const { authUser } = useOutletContext();
+  const { authUser, loading, staffMetrics } = useOutletContext();
 
   return (
     <>
@@ -20,9 +20,10 @@ function StaffHome() {
           <div className="row g-4 align-items-center">
             <div className="col-lg-7">
               <p className="eyebrow">Staff Workspace</p>
-              <h1>Track Daily Work, Orders, and Stock Status</h1>
+              <h1>Staff Registration, Work Orders, Task Updates, Performance</h1>
               <p className="lead-text">
-                Use this panel to follow assigned tasks and update stock movement quickly.
+                This staff panel is focused only on the core team workflow you
+                need.
               </p>
 
               <div className="hero-profile">
@@ -32,20 +33,47 @@ function StaffHome() {
                   <b>{authUser?.email || "-"}</b>
                 </p>
                 <div className="d-flex flex-wrap gap-2 mt-3">
-                  <Link to="/staff/stock-list" className="btn btn-success btn-lg">Open Stock List</Link>
-                  <Link to="/staff/orders" className="btn btn-outline-light btn-lg">Open Orders</Link>
+                  <Link to="/staff/work-orders" className="btn btn-success btn-lg">
+                    Work Orders
+                  </Link>
+                  <Link
+                    to="/staff/task-updates"
+                    className="btn btn-outline-light btn-lg"
+                  >
+                    Task Updates
+                  </Link>
+                  <Link
+                    to="/staff/performance"
+                    className="btn btn-outline-light btn-lg"
+                  >
+                    Performance
+                  </Link>
                 </div>
               </div>
             </div>
 
             <div className="col-lg-5">
               <div className="hero-side-card">
-                <h3>Staff Quick Actions</h3>
+                <h3>Quick Summary</h3>
                 <ul>
-                  <li>Check available stock before delivery</li>
-                  <li>Update order delivery status</li>
-                  <li>Confirm delivered quantity and pending items</li>
-                  <li>Coordinate with admin for low stock items</li>
+                  <li>
+                    Assigned Orders:{" "}
+                    <strong>{loading ? "Loading..." : staffMetrics.assignedOrders}</strong>
+                  </li>
+                  <li>
+                    Pending Orders:{" "}
+                    <strong>{loading ? "Loading..." : staffMetrics.pendingOrders}</strong>
+                  </li>
+                  <li>
+                    In Progress Tasks:{" "}
+                    <strong>{loading ? "Loading..." : staffMetrics.inProgressTasks}</strong>
+                  </li>
+                  <li>
+                    Task Completion Rate:{" "}
+                    <strong>
+                      {loading ? "Loading..." : `${staffMetrics.taskCompletionRate}%`}
+                    </strong>
+                  </li>
                 </ul>
               </div>
             </div>
@@ -55,29 +83,36 @@ function StaffHome() {
 
       <section id="products" className="section container-xl">
         <div className="section-head">
-          <h2>Today&apos;s Work Flow</h2>
-          <p>Simple workflow for staff operations.</p>
+          <h2>Core Staff Features</h2>
+          <p>Only the modules needed for staff workflow.</p>
         </div>
         <div className="row g-3">
-          <div className="col-md-6 col-xl-4">
+          <div className="col-md-6 col-xl-3">
             <article className="product-card h-100">
-              <img src={bgImage} alt="Stock review" className="card-image" />
-              <h3>1. Verify Stock</h3>
-              <p>Check available and low stock items before assigning delivery.</p>
+              <img src={bgImage} alt="Staff access" className="card-image" />
+              <h3>Staff Registration and Login</h3>
+              <p>Staff access continues through the existing signup and login system.</p>
             </article>
           </div>
-          <div className="col-md-6 col-xl-4">
+          <div className="col-md-6 col-xl-3">
             <article className="product-card h-100">
-              <img src={siteImage} alt="Order update" className="card-image" />
-              <h3>2. Update Orders</h3>
-              <p>Track ordered items and mark them delivered after dispatch.</p>
+              <img src={siteImage} alt="Work orders" className="card-image" />
+              <h3>Work Order Assignment</h3>
+              <p>Staff can see only the work orders assigned to them.</p>
             </article>
           </div>
-          <div className="col-md-6 col-xl-4">
+          <div className="col-md-6 col-xl-3">
             <article className="product-card h-100">
-              <img src={heroImage} alt="Task tracking" className="card-image" />
-              <h3>3. Submit Task Status</h3>
-              <p>Log staff task progress to keep operations clear and accurate.</p>
+              <img src={heroImage} alt="Task updates" className="card-image" />
+              <h3>Task Status Updates</h3>
+              <p>Staff can add task logs and update status as work progresses.</p>
+            </article>
+          </div>
+          <div className="col-md-6 col-xl-3">
+            <article className="product-card h-100">
+              <img src={bgImage} alt="Performance tracking" className="card-image" />
+              <h3>Performance Tracking</h3>
+              <p>Performance is shown through work order completion and task progress.</p>
             </article>
           </div>
         </div>

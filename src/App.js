@@ -3,15 +3,15 @@ import Home from "./components/Home";
 import Signup from "./components/Signup";
 import Login from "./components/Login";
 import StaffHome from "./components/StaffHome";
-import StaffStockListPage from "./components/staff/StaffStockListPage";
 import StaffOrdersPage from "./components/staff/StaffOrdersPage";
+import StaffActivityPage from "./components/staff/StaffActivityPage";
+import StaffPerformancePage from "./components/staff/StaffPerformancePage";
 import StaffLayout from "./components/staff/StaffLayout";
 import BillingCalculation from "./components/BillingCalculation";
 import GPSTracker from "./components/GPSTracker";
 import Otp from "./components/otp";
 import InventoryLayout from "./components/inventory/InventoryLayout";
 import InventoryDashboardPage from "./components/inventory/InventoryDashboardPage";
-import StockEntryPage from "./components/inventory/StockEntryPage";
 import StockListPage from "./components/inventory/StockListPage";
 import OrderTrackingPage from "./components/inventory/OrderTrackingPage";
 import StaffTrackingPage from "./components/inventory/StaffTrackingPage";
@@ -48,8 +48,12 @@ function App() {
       >
         <Route index element={<Navigate to="home" replace />} />
         <Route path="home" element={<StaffHome />} />
-        <Route path="stock-list" element={<StaffStockListPage />} />
-        <Route path="orders" element={<StaffOrdersPage />} />
+        <Route path="work-orders" element={<StaffOrdersPage />} />
+        <Route path="task-updates" element={<StaffActivityPage />} />
+        <Route path="performance" element={<StaffPerformancePage />} />
+        <Route path="stock-list" element={<Navigate to="/staff/work-orders" replace />} />
+        <Route path="orders" element={<Navigate to="/staff/work-orders" replace />} />
+        <Route path="activity" element={<Navigate to="/staff/task-updates" replace />} />
       </Route>
       <Route path="/staff-home" element={<Navigate to="/staff/home" replace />} />
 
@@ -90,7 +94,7 @@ function App() {
       >
         <Route index element={<Navigate to="dashboard" replace />} />
         <Route path="dashboard" element={<InventoryDashboardPage />} />
-        <Route path="entry" element={<StockEntryPage />} />
+        <Route path="entry" element={<Navigate to="/stock/list" replace />} />
         <Route path="list" element={<StockListPage />} />
         <Route path="orders" element={<OrderTrackingPage />} />
         <Route path="staff" element={<StaffTrackingPage />} />

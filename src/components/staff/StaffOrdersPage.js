@@ -1,64 +1,81 @@
-import { useEffect, useState } from "react";
+import { useOutletContext } from "react-router-dom";
 import "../inventory/InventoryPages.css";
 
+function formatDate(value) {
+  if (!value) return "-";
+  const date = new Date(value);
+  return Number.isNaN(date.getTime()) ? "-" : date.toLocaleString();
+}
+
 function StaffOrdersPage() {
-  const [orders, setOrders] = useState([]);
-
-  useEffect(() => {
-    try {
-      const raw = sessionStorage.getItem("stockOrders");
-      setOrders(raw ? JSON.parse(raw) : []);
-    } catch {
-      setOrders([]);
-    }
-  }, []);
-
-  const markDelivered = (id) => {
-    const updated = orders.map((order) =>
-      order.id === id && order.status !== "Delivered"
-        ? { ...order, status: "Delivered", deliveredAt: new Date().toLocaleString() }
-        : order
-    );
-    setOrders(updated);
-    sessionStorage.setItem("stockOrders", JSON.stringify(updated));
-  };
+  const { loading, myOrders, staffMetrics, handleMarkDelivered } =
+    useOutletContext();
 
   return (
     <div className="stock-dash-page">
       <div className="panel-card">
-        <h3>Staff Order Tracking</h3>
-        <p className="page-note">View assigned orders and update delivery status.</p>
+        <h3>Work Order Assignment</h3>
+        <p className="page-note">
+          View work orders assigned to you and update delivery status.
+        </p>
+
+        <div className="kpi-grid mb-3">
+          <div className="kpi-card">
+            <span>Assigned Orders</span>
+            <strong>{staffMetrics.assignedOrders}</strong>
+          </div>
+          <div className="kpi-card warning">
+            <span>Pending</span>
+            <strong>{staffMetrics.pendingOrders}</strong>
+          </div>
+          <div className="kpi-card success">
+            <span>Delivered</span>
+            <strong>{staffMetrics.deliveredOrders}</strong>
+          </div>
+        </div>
 
         <table className="mini-table">
           <thead>
             <tr>
               <th>Item</th>
               <th>Qty</th>
-              <th>Staff</th>
               <th>Status</th>
+              <th>Created</th>
+              <th>Delivered</th>
               <th>Action</th>
             </tr>
           </thead>
           <tbody>
-            {orders.length === 0 ? (
+            {loading ? (
               <tr>
-                <td colSpan={5} className="loading-text">No orders available.</td>
+                <td colSpan={6} className="loading-text">Loading work orders...</td>
+              </tr>
+            ) : myOrders.length === 0 ? (
+              <tr>
+                <td colSpan={6} className="loading-text">
+                  No work orders assigned to you yet.
+                </td>
               </tr>
             ) : (
-              orders.map((order) => (
+              myOrders.map((order) => (
                 <tr key={order.id}>
                   <td>{order.itemName}</td>
                   <td>{order.quantity}</td>
-                  <td>{order.staffName}</td>
                   <td>
-                    <span className={`status-badge ${order.status === "Delivered" ? "ok" : "pending"}`}>
+                    <span
+                      className={`status-badge ${
+                        order.status === "Delivered" ? "ok" : "pending"
+                      }`}
+                    >
                       {order.status}
                     </span>
                   </td>
+                  <td>{formatDate(order.createdAt)}</td>
+                  <td>{formatDate(order.deliveredAt)}</td>
                   <td>
                     <button
                       className="small-action"
-                      onClick={() => markDelivered(order.id)}
+                      onClick={() => handleMarkDelivered(order.id)}
                       disabled={order.status === "Delivered"}
                     >
                       Mark Delivered
