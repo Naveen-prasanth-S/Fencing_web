@@ -2,6 +2,8 @@ import "./InventoryPages.css";
 import { Link, NavLink, Outlet, useNavigate } from "react-router-dom";
 import { useEffect, useMemo, useState } from "react";
 import panelBg from "../../assets/bg.webp";
+import CompanyBrand from "../CompanyBrand";
+import CompanyFooter from "../CompanyFooter";
 import {
   createInventoryItem,
   createOrder,
@@ -100,7 +102,12 @@ function InventoryLayout() {
     }
 
     try {
-      const newItem = await createInventoryItem({ itemName, category, quantity, minLevel });
+      const newItem = await createInventoryItem({
+        itemName,
+        category,
+        quantity,
+        minLevel,
+      });
       setItems((prev) => [newItem, ...prev]);
       setForm({ itemName: "", category: "", quantity: "", minLevel: "" });
     } catch (error) {
@@ -302,7 +309,7 @@ function InventoryLayout() {
     <div className="stock-shell">
       <header className="topbar navbar navbar-expand-lg">
         <div className="container-xl">
-          <span className="brand navbar-brand mb-0">FencingMS</span>
+          <CompanyBrand />
           <button
             className="navbar-toggler bg-light"
             type="button"
@@ -317,10 +324,18 @@ function InventoryLayout() {
 
           <nav className="collapse navbar-collapse" id="stockNavbar">
             <div className="navbar-nav ms-auto align-items-lg-center gap-lg-2">
-              <Link to="/" className="nav-link">Home</Link>
-              <NavLink to="/stock/dashboard" className="nav-link">Inventory</NavLink>
-              <Link to="/billing" className="nav-link">Costing</Link>
-              <Link to="/gps" className="nav-link">GPS</Link>
+              <Link to="/" className="nav-link">
+                Home
+              </Link>
+              <NavLink to="/stock/dashboard" className="nav-link">
+                Inventory
+              </NavLink>
+              <Link to="/billing" className="nav-link">
+                Costing
+              </Link>
+              <Link to="/gps" className="nav-link">
+                GPS
+              </Link>
               {authUser && (
                 <div className="profile-nav ms-lg-2 mt-2 mt-lg-0">
                   <div className="avatar">
@@ -364,16 +379,28 @@ function InventoryLayout() {
 
         <div className="stock-dash-layout">
           <aside className="left-menu">
-            <NavLink to="/stock/dashboard" className={({ isActive }) => `process-link ${isActive ? "active" : ""}`}>
+            <NavLink
+              to="/stock/dashboard"
+              className={({ isActive }) => `process-link ${isActive ? "active" : ""}`}
+            >
               Dashboard
             </NavLink>
-            <NavLink to="/stock/list" className={({ isActive }) => `process-link ${isActive ? "active" : ""}`}>
+            <NavLink
+              to="/stock/list"
+              className={({ isActive }) => `process-link ${isActive ? "active" : ""}`}
+            >
               Stock List
             </NavLink>
-            <NavLink to="/stock/orders" className={({ isActive }) => `process-link ${isActive ? "active" : ""}`}>
+            <NavLink
+              to="/stock/orders"
+              className={({ isActive }) => `process-link ${isActive ? "active" : ""}`}
+            >
               Order Tracking
             </NavLink>
-            <NavLink to="/stock/staff" className={({ isActive }) => `process-link ${isActive ? "active" : ""}`}>
+            <NavLink
+              to="/stock/staff"
+              className={({ isActive }) => `process-link ${isActive ? "active" : ""}`}
+            >
               Staff Tracking
             </NavLink>
           </aside>
@@ -384,41 +411,9 @@ function InventoryLayout() {
         </div>
       </div>
 
-      <footer id="contact" className="footer">
-        <div className="container-xl">
-          <div className="row g-3 align-items-start">
-            <div className="col-lg-5">
-              <h3 className="footer-title">FencingMS</h3>
-              <p className="footer-text mb-2">
-                Professional fencing solutions for homes, commercial spaces, and industrial sites.
-              </p>
-              <p className="footer-text mb-0">
-                Address: 24/7 Industrial Road, Coimbatore, Tamil Nadu 641021
-              </p>
-            </div>
-            <div className="col-lg-4">
-              <h4 className="footer-subtitle">Contact</h4>
-              <p className="footer-text mb-1">Phone: +91 98765 43210</p>
-              <p className="footer-text mb-1">Email: support@fencingms.local</p>
-              <p className="footer-text mb-0">Working Hours: Mon - Sat, 9:00 AM - 6:00 PM</p>
-            </div>
-            <div className="col-lg-3">
-              <h4 className="footer-subtitle">Follow Us</h4>
-              <div className="social-links">
-                <a href="https://instagram.com" target="_blank" rel="noreferrer">Instagram</a>
-                <a href="https://linkedin.com" target="_blank" rel="noreferrer">LinkedIn</a>
-                <a href="https://facebook.com" target="_blank" rel="noreferrer">Facebook</a>
-                <a href="https://wa.me/919876543210" target="_blank" rel="noreferrer">WhatsApp</a>
-              </div>
-            </div>
-          </div>
-          <hr className="footer-line" />
-          <p className="footer-copy mb-0">© {new Date().getFullYear()} FencingMS. All rights reserved.</p>
-        </div>
-      </footer>
+      <CompanyFooter />
     </div>
   );
 }
 
 export default InventoryLayout;
-

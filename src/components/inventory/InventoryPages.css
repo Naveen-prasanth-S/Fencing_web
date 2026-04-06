@@ -17,10 +17,11 @@
 }
 
 .brand {
-  font-size: 1.4rem;
+  font-size: clamp(1rem, 1.5vw + 0.7rem, 1.4rem);
   font-weight: 800;
   color: #ffffff;
   letter-spacing: 0.2px;
+  line-height: 1.1;
 }
 
 .topbar .nav-link {

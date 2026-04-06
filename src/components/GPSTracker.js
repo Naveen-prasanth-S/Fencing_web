@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
+import CompanyBrand from "./CompanyBrand";
+import CompanyFooter from "./CompanyFooter";
 import "./GPSTracker.css";
 
 const TRACKERS = [
@@ -48,7 +50,7 @@ function GPSTracker() {
     <div className="stock-shell">
       <header className="topbar navbar navbar-expand-lg">
         <div className="container-xl">
-          <span className="brand navbar-brand mb-0">FencingMS</span>
+          <CompanyBrand />
           <button
             className="navbar-toggler bg-light"
             type="button"
@@ -177,55 +179,7 @@ function GPSTracker() {
         </div>
       </section>
 
-      <footer id="contact" className="footer">
-        <div className="container-xl">
-          <div className="row g-3 align-items-start">
-            <div className="col-lg-5">
-              <h3 className="footer-title">FencingMS</h3>
-              <p className="footer-text mb-2">
-                Professional fencing solutions for homes, commercial spaces, and
-                industrial sites.
-              </p>
-              <p className="footer-text mb-0">
-                Address: 24/7 Industrial Road, Coimbatore, Tamil Nadu 641021
-              </p>
-            </div>
-            <div className="col-lg-4">
-              <h4 className="footer-subtitle">Contact</h4>
-              <p className="footer-text mb-1">Phone: +91 98765 43210</p>
-              <p className="footer-text mb-1">Email: support@fencingms.local</p>
-              <p className="footer-text mb-0">
-                Working Hours: Mon - Sat, 9:00 AM - 6:00 PM
-              </p>
-            </div>
-            <div className="col-lg-3">
-              <h4 className="footer-subtitle">Follow Us</h4>
-              <div className="social-links">
-                <a href="https://instagram.com" target="_blank" rel="noreferrer">
-                  Instagram
-                </a>
-                <a href="https://linkedin.com" target="_blank" rel="noreferrer">
-                  LinkedIn
-                </a>
-                <a href="https://facebook.com" target="_blank" rel="noreferrer">
-                  Facebook
-                </a>
-                <a
-                  href="https://wa.me/919876543210"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  WhatsApp
-                </a>
-              </div>
-            </div>
-          </div>
-          <hr className="footer-line" />
-          <p className="footer-copy mb-0">
-            Copyright {new Date().getFullYear()} FencingMS. All rights reserved.
-          </p>
-        </div>
-      </footer>
+      <CompanyFooter />
     </div>
   );
 }

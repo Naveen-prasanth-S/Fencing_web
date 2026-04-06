@@ -4,6 +4,7 @@ import "./Home.css";
 import heroImage from "../assets/home.webp";
 import bgImage from "../assets/bg.webp";
 import siteImage from "../assets/lbg.jpg";
+import CompanyFooter from "./CompanyFooter";
 import SiteNavbar from "./SiteNavbar";
 
 function Home() {
@@ -152,45 +153,7 @@ function Home() {
         </div>
       </section>
 
-      <footer id="contact" className="footer">
-        <div className="container-xl">
-          <div className="row g-3 align-items-start">
-            <div className="col-lg-5">
-              <h3 className="footer-title">ATHANURAMMAN FENCINGS</h3>
-              <p className="footer-text mb-2">
-                Professional fencing solutions for homes, commercial spaces, and
-                industrial sites.
-              </p>
-              <p className="footer-text mb-0">
-                Address: 24/7 Industrial Road, Coimbatore, Tamil Nadu 641021
-              </p>
-            </div>
-
-            <div className="col-lg-4">
-              <h4 className="footer-subtitle">Contact</h4>
-              <p className="footer-text mb-1">Phone: +91 98765 43210</p>
-              <p className="footer-text mb-1">Alt Phone: +91 91234 56789</p>
-              <p className="footer-text mb-1">Email: support@fencingms.local</p>
-              <p className="footer-text mb-0">Working Hours: Mon - Sat, 9:00 AM - 6:00 PM</p>
-            </div>
-
-            <div className="col-lg-3">
-              <h4 className="footer-subtitle">Follow Us</h4>
-              <div className="social-links">
-                <a href="https://instagram.com" target="_blank" rel="noreferrer">Instagram</a>
-                <a href="https://linkedin.com" target="_blank" rel="noreferrer">LinkedIn</a>
-                <a href="https://facebook.com" target="_blank" rel="noreferrer">Facebook</a>
-                <a href="https://wa.me/919876543210" target="_blank" rel="noreferrer">WhatsApp</a>
-              </div>
-            </div>
-          </div>
-
-          <hr className="footer-line" />
-          <p className="footer-copy mb-0">
-            &copy; {new Date().getFullYear()} ATHANURAMMAN FENCINGS. All rights reserved.
-          </p>
-        </div>
-      </footer>
+      <CompanyFooter />
     </div>
   );
 }

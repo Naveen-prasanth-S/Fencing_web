@@ -2,21 +2,17 @@ import { useEffect, useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { calculateBilling, getBillingRates } from "../services/billingApi";
 import companyLogo from "../assets/athanuramman-logo.png";
+import CompanyBrand from "./CompanyBrand";
+import CompanyFooter from "./CompanyFooter";
+import { COMPANY_PROFILE } from "../data/companyProfile";
 import "./inventory/InventoryPages.css";
 import "./BillingCalculation.css";
 
 const HEIGHT_OPTIONS = [4, 5, 6];
-
-const COMPANY_PROFILE = {
+const INVOICE_PROFILE = {
+  ...COMPANY_PROFILE,
   documentLabel: "Tax Invoice",
   copyLabel: "Original for Recipient",
-  name: "Athanuramman Fencings",
-  headOffice:
-    "17/295, Othakadai, Trichy Road, Vellakovil, Tiruppur (DT) - 638111.",
-  branch:
-    "337, Covai Road, Kangeyam, Tiruppur (DT) - 638701, Tamil Nadu.",
-  mobile: "9442620912",
-  gstin: "33CBXPK0027R1Z3",
 };
 
 const INITIAL_FORM = {
@@ -360,7 +356,7 @@ function BillingCalculation() {
     <div className="stock-shell">
       <header className="topbar navbar navbar-expand-lg">
         <div className="container-xl">
-          <span className="brand navbar-brand mb-0">FencingMS</span>
+          <CompanyBrand />
           <button
             className="navbar-toggler bg-light"
             type="button"
@@ -830,10 +826,10 @@ function BillingCalculation() {
                   <article className="invoice-sheet">
                     <div className="invoice-flags">
                       <span className="invoice-flag-primary">
-                        {COMPANY_PROFILE.documentLabel.toUpperCase()}
+                        {INVOICE_PROFILE.documentLabel.toUpperCase()}
                       </span>
                       <span className="invoice-flag-copy">
-                        {COMPANY_PROFILE.copyLabel.toUpperCase()}
+                        {INVOICE_PROFILE.copyLabel.toUpperCase()}
                       </span>
                     </div>
 
@@ -841,17 +837,17 @@ function BillingCalculation() {
                       <div className="invoice-logo-wrap">
                         <img
                           src={companyLogo}
-                          alt={`${COMPANY_PROFILE.name} logo`}
+                          alt={`${INVOICE_PROFILE.name} logo`}
                           className="invoice-logo"
                         />
                       </div>
                       <div className="invoice-header-copy">
-                        <h2>{COMPANY_PROFILE.name}</h2>
-                        <p>HEAD OFFICE : {COMPANY_PROFILE.headOffice}</p>
-                        <p>BRANCH : {COMPANY_PROFILE.branch}</p>
+                        <h2>{INVOICE_PROFILE.name}</h2>
+                        <p>HEAD OFFICE : {INVOICE_PROFILE.headOffice}</p>
+                        <p>BRANCH : {INVOICE_PROFILE.branch}</p>
                         <div className="invoice-contact-row">
-                          <span>Mobile: {COMPANY_PROFILE.mobile}</span>
-                          <span>GSTIN: {COMPANY_PROFILE.gstin}</span>
+                          <span>Mobile: {INVOICE_PROFILE.mobile}</span>
+                          <span>GSTIN: {INVOICE_PROFILE.gstin}</span>
                         </div>
                       </div>
                     </header>
@@ -991,7 +987,7 @@ function BillingCalculation() {
                         <div className="invoice-sign-box" />
                         <div className="invoice-signatory">
                           <span>Authorised Signatory For</span>
-                          <strong>{COMPANY_PROFILE.name}</strong>
+                          <strong>{INVOICE_PROFILE.name}</strong>
                         </div>
                       </div>
                     </section>
@@ -1003,39 +999,43 @@ function BillingCalculation() {
         </div>
       </section>
 
-      <footer id="contact" className="footer">
+      {false && <footer id="contact" className="footer">
         <div className="container-xl">
           <div className="row g-3 align-items-start">
             <div className="col-lg-5">
-              <h3 className="footer-title">FencingMS</h3>
+              <h3 className="footer-title">{COMPANY_PROFILE.name}</h3>
               <p className="footer-text mb-2">
                 Professional fencing solutions for homes, commercial spaces, and
                 industrial sites.
               </p>
               <p className="footer-text mb-0">
-                Address: 24/7 Industrial Road, Coimbatore, Tamil Nadu 641021
+                HEAD OFFICE: {COMPANY_PROFILE.headOffice}
               </p>
             </div>
             <div className="col-lg-4">
               <h4 className="footer-subtitle">Contact</h4>
-              <p className="footer-text mb-1">Phone: +91 98765 43210</p>
-              <p className="footer-text mb-1">Email: support@fencingms.local</p>
-              <p className="footer-text mb-0">Working Hours: Mon - Sat, 9:00 AM - 6:00 PM</p>
+              <p className="footer-text mb-1">Mobile: {COMPANY_PROFILE.mobile}</p>
+              <p className="footer-text mb-1">GSTIN: {COMPANY_PROFILE.gstin}</p>
+              <p className="footer-text mb-0">BRANCH: {COMPANY_PROFILE.branch}</p>
             </div>
             <div className="col-lg-3">
-              <h4 className="footer-subtitle">Follow Us</h4>
+              <h4 className="footer-subtitle">Locations</h4>
               <div className="social-links">
-                <a href="https://instagram.com" target="_blank" rel="noreferrer">Instagram</a>
-                <a href="https://linkedin.com" target="_blank" rel="noreferrer">LinkedIn</a>
-                <a href="https://facebook.com" target="_blank" rel="noreferrer">Facebook</a>
-                <a href="https://wa.me/919876543210" target="_blank" rel="noreferrer">WhatsApp</a>
+                <a href="https://maps.app.goo.gl/zdUiepQfLjkaKvjS7?g_st=aw" target="_blank" rel="noreferrer">Vellakovil Unit</a>
+                <a href="https://maps.app.goo.gl/taf9JivUc8kRp1cJ7" target="_blank" rel="noreferrer">Kangeyam Unit</a>
+                <a href="https://www.instagram.com/athanurammanfencings?igsh=ejlybTd6ZGN2eThu" target="_blank" rel="noreferrer">Instagram</a>
+                <a href="https://youtube.com/@athanurammanfencings786?si=DSRQ9kVKZvZdA4QE" target="_blank" rel="noreferrer">YouTube</a>
               </div>
             </div>
           </div>
           <hr className="footer-line" />
-          <p className="footer-copy mb-0">© {new Date().getFullYear()} FencingMS. All rights reserved.</p>
+          <p className="footer-copy mb-0">
+            &copy; {new Date().getFullYear()} {COMPANY_PROFILE.name}. All rights
+            reserved.
+          </p>
         </div>
-      </footer>
+      </footer>}
+      <CompanyFooter />
     </div>
   );
 }

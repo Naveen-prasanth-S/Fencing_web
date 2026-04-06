@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import CompanyBrand from "./CompanyBrand";
 import "./SiteNavbar.css";
 
 function SiteNavbar({ authUser, onLogout, collapseId = "siteNavbar" }) {
@@ -9,7 +10,7 @@ function SiteNavbar({ authUser, onLogout, collapseId = "siteNavbar" }) {
   return (
     <header className="topbar navbar navbar-expand-lg">
       <div className="container-xl">
-        <span className="brand navbar-brand mb-0">ATHANURAMMAN FENCINGS</span>
+        <CompanyBrand />
 
         <button
           className="navbar-toggler bg-light"
