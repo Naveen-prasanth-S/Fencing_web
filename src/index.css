@@ -1,13 +1,84 @@
+:root {
+  --af-ink: #17211b;
+  --af-muted: #5d685e;
+  --af-soft: #f4f7f2;
+  --af-surface: #ffffff;
+  --af-surface-2: #eef5ed;
+  --af-line: #d9e4d7;
+  --af-forest: #276045;
+  --af-forest-dark: #173c2c;
+  --af-leaf: #79a85d;
+  --af-steel: #4f7d86;
+  --af-danger: #b93434;
+  --af-warning: #b88722;
+  --af-shadow: 0 16px 34px rgba(23, 33, 27, 0.12);
+  --af-shadow-soft: 0 8px 20px rgba(23, 33, 27, 0.08);
+  --af-radius: 8px;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  background: var(--af-soft);
+  color: var(--af-ink);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
+img {
+  max-width: 100%;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button,
+a,
+input,
+select,
+textarea {
+  letter-spacing: 0;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid rgba(39, 96, 69, 0.24);
+  outline-offset: 2px;
+}
+
+.btn {
+  border-radius: var(--af-radius);
+  font-weight: 700;
+}
+
+.btn-primary,
+.btn-success {
+  border-color: var(--af-forest);
+  background: var(--af-forest);
+}
+
+.btn-primary:hover,
+.btn-success:hover {
+  border-color: var(--af-forest-dark);
+  background: var(--af-forest-dark);
+}
+
+.btn-outline-light:hover {
+  color: var(--af-ink);
+}
+
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }

@@ -75,14 +75,19 @@ function Home() {
             </div>
 
             <div className="col-lg-5">
-              <div className="hero-side-card">
-                <h3>Quick Highlights</h3>
-                <ul>
-                  <li>Residential and commercial fencing</li>
-                  <li>Custom gates and designs</li>
-                  <li>On-time installation</li>
-                  <li>Post-service support</li>
-                </ul>
+              <div className="hero-proof-list">
+                <div className="hero-proof-item">
+                  <strong>Site Visit</strong>
+                  <span>Clear measurements before work starts</span>
+                </div>
+                <div className="hero-proof-item">
+                  <strong>Material Ready</strong>
+                  <span>Stock, orders, and billing managed in one flow</span>
+                </div>
+                <div className="hero-proof-item">
+                  <strong>Team Follow-up</strong>
+                  <span>Staff updates and vehicle links stay connected</span>
+                </div>
               </div>
             </div>
           </div>
@@ -118,36 +123,29 @@ function Home() {
 
       <section id="products" className="section container-xl">
         <div className="section-head">
-          <h2>Fence Types We Provide</h2>
-          <p>Simple options for different property needs.</p>
+          <h2>Fencing Work We Handle</h2>
+          <p>Practical fencing support from material planning to installation.</p>
         </div>
         <div className="row g-3">
-          <div className="col-md-6 col-xl-3">
+          <div className="col-md-4">
             <article className="product-card h-100">
-              <img src={bgImage} alt="Chain link fencing" className="card-image" />
-              <h3>Chain Link Fencing</h3>
-              <p>Affordable and durable for wide boundary coverage.</p>
+              <img src={heroImage} alt="Completed fencing boundary" className="card-image" />
+              <h3>Boundary Fencing</h3>
+              <p>Strong boundary work for homes, farms, offices, and industrial sites.</p>
             </article>
           </div>
-          <div className="col-md-6 col-xl-3">
+          <div className="col-md-4">
             <article className="product-card h-100">
-              <img src={siteImage} alt="Wooden fencing" className="card-image" />
-              <h3>Wooden Fencing</h3>
-              <p>Classic style for homes and garden privacy.</p>
+              <img src={bgImage} alt="Fencing stock materials" className="card-image" />
+              <h3>Material Planning</h3>
+              <p>Stock quantities, reorder needs, and work orders stay easy to track.</p>
             </article>
           </div>
-          <div className="col-md-6 col-xl-3">
+          <div className="col-md-4">
             <article className="product-card h-100">
-              <img src={heroImage} alt="Metal fencing" className="card-image" />
-              <h3>Metal Fencing</h3>
-              <p>High-security option with long service life.</p>
-            </article>
-          </div>
-          <div className="col-md-6 col-xl-3">
-            <article className="product-card h-100">
-              <img src={bgImage} alt="Custom gate work" className="card-image" />
-              <h3>Customized Gate Works</h3>
-              <p>Custom gates that match your fence design.</p>
+              <img src={siteImage} alt="Fencing site work" className="card-image" />
+              <h3>Site Installation</h3>
+              <p>Staff assignments and task updates support clean on-site execution.</p>
             </article>
           </div>
         </div>

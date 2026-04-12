@@ -1,77 +1,95 @@
 .otp-page {
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
-  justify-content: center;
   align-items: center;
-  background: linear-gradient(135deg, #0d6efd, #003f9e);
-  font-family: 'Segoe UI', sans-serif;
+  justify-content: center;
+  padding: 24px;
+  background:
+    linear-gradient(rgba(23, 60, 44, 0.78), rgba(23, 60, 44, 0.78)),
+    var(--af-soft);
 }
 
 .otp-box {
-  background: white;
-  padding: 40px;
-  width: 350px;
-  border-radius: 15px;
+  width: min(390px, 100%);
+  box-sizing: border-box;
+  padding: 30px 26px;
+  border: 1px solid var(--af-line);
+  border-radius: var(--af-radius);
+  background: #ffffff;
   text-align: center;
-  box-shadow: 0 15px 30px rgba(0,0,0,0.25);
+  box-shadow: var(--af-shadow);
 }
 
 .otp-box h2 {
-  margin-bottom: 10px;
+  margin: 0 0 10px;
+  color: var(--af-ink);
+  font-size: 1.8rem;
+  font-weight: 800;
 }
 
 .otp-box p {
-  font-size: 14px;
-  color: #555;
+  color: var(--af-muted);
+  font-size: 0.95rem;
 }
 
 .otp-inputs {
   display: flex;
   justify-content: space-between;
+  gap: 8px;
   margin: 25px 0;
 }
 
 .otp-inputs input {
-  width: 45px;
-  height: 45px;
-  font-size: 20px;
+  width: 46px;
+  height: 48px;
+  border: 1px solid var(--af-line);
+  border-radius: var(--af-radius);
+  color: var(--af-ink);
+  font-size: 1.25rem;
   text-align: center;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  outline: none;
-  transition: border 0.3s;
 }
 
 .otp-inputs input:focus {
-  border-color: #0d6efd;
+  border-color: var(--af-forest);
+  outline: 3px solid rgba(39, 96, 69, 0.18);
 }
 
 .verify-btn {
   width: 100%;
-  padding: 12px;
-  background: #0d6efd;
-  color: white;
+  min-height: 48px;
   border: none;
-  border-radius: 25px;
-  font-weight: bold;
+  border-radius: var(--af-radius);
+  background: var(--af-forest);
+  color: white;
   cursor: pointer;
+  font-weight: 800;
 }
 
 .verify-btn:hover {
-  background: #003f9e;
+  background: var(--af-forest-dark);
 }
 
 .resend {
   margin-top: 15px;
-  font-size: 14px;
+  font-size: 0.95rem;
 }
 
 .resend span {
-  color: #0d6efd;
+  color: var(--af-forest);
   cursor: pointer;
-  font-weight: 600;
+  font-weight: 800;
 }
 
 .resend span:hover {
   text-decoration: underline;
+}
+
+@media (max-width: 420px) {
+  .otp-box {
+    padding: 24px 18px;
+  }
+
+  .otp-inputs input {
+    width: 40px;
+  }
 }

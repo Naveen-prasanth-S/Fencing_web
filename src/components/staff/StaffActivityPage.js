@@ -36,11 +36,11 @@ function StaffActivityPage() {
           </div>
           <div className="kpi-card warning">
             <span>In Progress</span>
-            <strong>{staffMetrics.inProgressLogs}</strong>
+            <strong>{staffMetrics.inProgressTasks}</strong>
           </div>
           <div className="kpi-card success">
             <span>Completed</span>
-            <strong>{staffMetrics.completedLogs}</strong>
+            <strong>{staffMetrics.completedTasks}</strong>
           </div>
         </div>
 

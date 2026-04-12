@@ -10,20 +10,20 @@
 }
 
 .brand-logo {
-  width: 52px;
-  height: 52px;
+  width: 48px;
+  height: 48px;
   object-fit: cover;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.96);
-  padding: 2px;
+  padding: 3px;
   flex-shrink: 0;
 }
 
 .brand-copy {
-  font-size: clamp(0.95rem, 1.25vw + 0.65rem, 1.35rem);
+  font-size: 1.16rem;
   font-weight: 800;
   line-height: 1.05;
-  letter-spacing: 0.2px;
+  letter-spacing: 0;
   color: #ffffff;
 }
 

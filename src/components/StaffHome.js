@@ -53,28 +53,19 @@ function StaffHome() {
             </div>
 
             <div className="col-lg-5">
-              <div className="hero-side-card">
-                <h3>Quick Summary</h3>
-                <ul>
-                  <li>
-                    Assigned Orders:{" "}
-                    <strong>{loading ? "Loading..." : staffMetrics.assignedOrders}</strong>
-                  </li>
-                  <li>
-                    Pending Orders:{" "}
-                    <strong>{loading ? "Loading..." : staffMetrics.pendingOrders}</strong>
-                  </li>
-                  <li>
-                    In Progress Tasks:{" "}
-                    <strong>{loading ? "Loading..." : staffMetrics.inProgressTasks}</strong>
-                  </li>
-                  <li>
-                    Task Completion Rate:{" "}
-                    <strong>
-                      {loading ? "Loading..." : `${staffMetrics.taskCompletionRate}%`}
-                    </strong>
-                  </li>
-                </ul>
+              <div className="hero-proof-list">
+                <div className="hero-proof-item">
+                  <strong>{loading ? "Loading..." : staffMetrics.assignedOrders}</strong>
+                  <span>Assigned orders</span>
+                </div>
+                <div className="hero-proof-item">
+                  <strong>{loading ? "Loading..." : staffMetrics.pendingOrders}</strong>
+                  <span>Pending orders</span>
+                </div>
+                <div className="hero-proof-item">
+                  <strong>{loading ? "Loading..." : `${staffMetrics.taskCompletionRate}%`}</strong>
+                  <span>Task completion rate</span>
+                </div>
               </div>
             </div>
           </div>
@@ -87,30 +78,23 @@ function StaffHome() {
           <p>Only the modules needed for staff workflow.</p>
         </div>
         <div className="row g-3">
-          <div className="col-md-6 col-xl-3">
+          <div className="col-md-4">
             <article className="product-card h-100">
-              <img src={bgImage} alt="Staff access" className="card-image" />
-              <h3>Staff Registration and Login</h3>
-              <p>Staff access continues through the existing signup and login system.</p>
-            </article>
-          </div>
-          <div className="col-md-6 col-xl-3">
-            <article className="product-card h-100">
-              <img src={siteImage} alt="Work orders" className="card-image" />
+              <img src={bgImage} alt="Work order materials" className="card-image" />
               <h3>Work Order Assignment</h3>
               <p>Staff can see only the work orders assigned to them.</p>
             </article>
           </div>
-          <div className="col-md-6 col-xl-3">
+          <div className="col-md-4">
             <article className="product-card h-100">
-              <img src={heroImage} alt="Task updates" className="card-image" />
+              <img src={siteImage} alt="Task update site work" className="card-image" />
               <h3>Task Status Updates</h3>
               <p>Staff can add task logs and update status as work progresses.</p>
             </article>
           </div>
-          <div className="col-md-6 col-xl-3">
+          <div className="col-md-4">
             <article className="product-card h-100">
-              <img src={bgImage} alt="Performance tracking" className="card-image" />
+              <img src={heroImage} alt="Completed fencing performance" className="card-image" />
               <h3>Performance Tracking</h3>
               <p>Performance is shown through work order completion and task progress.</p>
             </article>

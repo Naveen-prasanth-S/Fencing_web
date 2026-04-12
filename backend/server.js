@@ -718,7 +718,7 @@ app.post("/verify-otp", (req, res) => {
 if (hasClientBuild) {
   app.use(express.static(CLIENT_BUILD_PATH));
 
-  app.get("*", (req, res, next) => {
+  app.get(/.*/, (req, res, next) => {
     if (!req.accepts("html")) {
       return next();
     }

@@ -2,21 +2,21 @@
   position: sticky;
   top: 0;
   z-index: 30;
-  background: rgba(2, 6, 23, 0.82);
-  backdrop-filter: blur(8px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(23, 60, 44, 0.94);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(216, 232, 210, 0.22);
 }
 
 .brand {
-  font-size: clamp(1rem, 1.5vw + 0.7rem, 1.4rem);
+  font-size: 1.2rem;
   font-weight: 800;
   color: #ffffff;
-  letter-spacing: 0.2px;
+  letter-spacing: 0;
   line-height: 1.1;
 }
 
 .topbar .nav-link {
-  color: #dbeafe;
+  color: #eaf3e5;
   font-weight: 600;
   border-radius: 8px;
   padding: 8px 10px;
@@ -32,9 +32,9 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  background: rgba(255, 255, 255, 0.08);
-  border-radius: 12px;
+  border: 1px solid rgba(216, 232, 210, 0.28);
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
   padding: 4px 8px 4px 4px;
 }
 
@@ -42,8 +42,8 @@
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #22c55e, #86efac);
-  color: #052e16;
+  background: #c9e7b8;
+  color: #173c2c;
   font-weight: 800;
   display: flex;
   align-items: center;
@@ -62,15 +62,15 @@
 }
 
 .profile-text span {
-  color: #bfdbfe;
+  color: #c9e7b8;
   font-size: 11px;
   text-transform: capitalize;
 }
 
 .logout-btn {
-  border: 1px solid rgba(255, 255, 255, 0.22);
-  background: rgba(15, 23, 42, 0.75);
-  color: #e2e8f0;
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  background: rgba(23, 60, 44, 0.76);
+  color: #eaf3e5;
   border-radius: 8px;
   padding: 4px 8px;
   font-size: 11px;

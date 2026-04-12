@@ -1,38 +1,38 @@
 .page {
   min-height: 100vh;
   width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  padding: 24px;
   background-size: cover;
   background-position: center;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 24px;
-  box-sizing: border-box;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .signup-card {
-  width: min(560px, 100%);
-  background: linear-gradient(160deg, #fef3c7 0%, #fde68a 100%);
-  border-radius: 18px;
-  padding: 28px 26px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  width: min(540px, 100%);
   box-sizing: border-box;
+  padding: 30px 28px;
+  border: 1px solid rgba(217, 228, 215, 0.86);
+  border-radius: var(--af-radius);
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: var(--af-shadow);
 }
 
 .signup-title {
-  margin: 0 0 6px;
-  text-align: center;
-  font-size: 34px;
+  margin: 0 0 18px;
+  color: var(--af-ink);
+  text-align: left;
+  font-size: 1.95rem;
+  font-weight: 800;
   line-height: 1.1;
-  color: #111827;
 }
 
 .signup-subtitle {
   margin: 0 0 20px;
-  text-align: center;
-  color: #374151;
-  font-size: 14px;
+  color: var(--af-muted);
+  font-size: 0.95rem;
 }
 
 .role-switch {
@@ -43,40 +43,41 @@
 }
 
 .role-btn {
-  border: 1px solid #bfdbfe;
-  border-radius: 12px;
-  padding: 10px 14px;
-  font-weight: 700;
+  border: 1px solid var(--af-line);
+  border-radius: var(--af-radius);
+  background: var(--af-surface-2);
+  color: var(--af-forest-dark);
   cursor: pointer;
-  background: #eff6ff;
-  color: #1e3a8a;
+  padding: 10px 14px;
+  font-weight: 800;
 }
 
 .role-btn.active {
-  background: #2563eb;
+  border-color: var(--af-forest);
+  background: var(--af-forest);
   color: #ffffff;
-  border-color: #2563eb;
 }
 
 .field {
   width: 100%;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
 }
 
 .field input {
   width: 100%;
   height: 48px;
-  border: 1px solid #d1d5db;
-  border-radius: 10px;
-  padding: 0 14px;
-  font-size: 16px;
   box-sizing: border-box;
+  border: 1px solid var(--af-line);
+  border-radius: var(--af-radius);
+  background: #ffffff;
+  padding: 0 14px;
+  color: var(--af-ink);
+  font-size: 1rem;
 }
 
 .field input:focus {
-  outline: none;
-  border-color: #2563eb;
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+  outline: 3px solid rgba(39, 96, 69, 0.18);
+  border-color: var(--af-forest);
 }
 
 .password-wrap {
@@ -89,54 +90,54 @@
 
 .toggle-eye {
   position: absolute;
-  right: 12px;
   top: 50%;
-  transform: translateY(-50%);
-  color: #374151;
-  cursor: pointer;
+  right: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
+  color: var(--af-muted);
+  cursor: pointer;
+  transform: translateY(-50%);
 }
 
 .error-text {
   display: block;
+  min-height: 16px;
   margin-top: 6px;
   margin-left: 4px;
-  min-height: 16px;
+  color: var(--af-danger);
+  font-size: 0.78rem;
   line-height: 16px;
-  font-size: 12px;
-  color: #991b1b;
 }
 
 .submit {
   width: 100%;
-  height: 48px;
-  border: none;
-  border-radius: 28px;
-  background: #2563eb;
-  color: #ffffff;
-  font-size: 24px;
-  font-weight: 800;
-  cursor: pointer;
+  min-height: 48px;
   margin-top: 8px;
+  border: none;
+  border-radius: var(--af-radius);
+  background: var(--af-forest);
+  color: #ffffff;
+  cursor: pointer;
+  font-size: 1.05rem;
+  font-weight: 800;
 }
 
 .submit:hover {
-  background: #1d4ed8;
+  background: var(--af-forest-dark);
 }
 
 .login-text {
   margin: 18px 0 0;
+  color: var(--af-muted);
   text-align: center;
-  color: #374151;
-  font-size: 20px;
+  font-size: 1rem;
 }
 
 .login-text span {
-  color: #2563eb;
+  color: var(--af-forest);
   cursor: pointer;
-  font-weight: 700;
+  font-weight: 800;
 }
 
 @media (max-width: 640px) {
@@ -145,18 +146,10 @@
   }
 
   .signup-card {
-    padding: 20px 16px;
+    padding: 22px 18px;
   }
 
   .signup-title {
-    font-size: 28px;
-  }
-
-  .submit {
-    font-size: 20px;
-  }
-
-  .login-text {
-    font-size: 18px;
+    font-size: 1.65rem;
   }
 }
