@@ -10,6 +10,7 @@ import {
   createStaffLog,
   getInventory,
   getOrders,
+  getReorderPredictions,
   getStaffLogs,
   markOrderDelivered,
   removeInventoryItem,
@@ -43,6 +44,10 @@ function InventoryLayout() {
   const [staffLogs, setStaffLogs] = useState([]);
   const [ordersLoading, setOrdersLoading] = useState(false);
   const [staffLogsLoading, setStaffLogsLoading] = useState(false);
+  const [forecast, setForecast] = useState([]);
+  const [forecastModel, setForecastModel] = useState(null);
+  const [forecastSummary, setForecastSummary] = useState(null);
+  const [forecastLoading, setForecastLoading] = useState(false);
 
   useEffect(() => {
     const rawUser = sessionStorage.getItem("authUser");
@@ -59,25 +64,50 @@ function InventoryLayout() {
       setLoading(true);
       setOrdersLoading(true);
       setStaffLogsLoading(true);
+      setForecastLoading(true);
       try {
-        const [loadedItems, loadedOrders, loadedStaffLogs] = await Promise.all([
+        const [
+          loadedItems,
+          loadedOrders,
+          loadedStaffLogs,
+          forecastResponse,
+        ] = await Promise.all([
           getInventory(),
           getOrders(),
           getStaffLogs(),
+          getReorderPredictions(),
         ]);
         setItems(loadedItems);
         setOrders(loadedOrders);
         setStaffLogs(loadedStaffLogs);
+        setForecast(forecastResponse.predictions || []);
+        setForecastModel(forecastResponse.model || null);
+        setForecastSummary(forecastResponse.summary || null);
       } catch (error) {
-        alert(error.message || "Server not reachable. Please start backend.");
+        alert(error.message || "Unable to load inventory details right now.");
       } finally {
         setLoading(false);
         setOrdersLoading(false);
         setStaffLogsLoading(false);
+        setForecastLoading(false);
       }
     };
     fetchInventoryData();
   }, []);
+
+  const syncForecast = async () => {
+    setForecastLoading(true);
+    try {
+      const forecastResponse = await getReorderPredictions();
+      setForecast(forecastResponse.predictions || []);
+      setForecastModel(forecastResponse.model || null);
+      setForecastSummary(forecastResponse.summary || null);
+    } catch (_error) {
+      // Keep the latest successful forecast visible if a refresh fails.
+    } finally {
+      setForecastLoading(false);
+    }
+  };
 
   const handleLogout = () => {
     sessionStorage.removeItem("authUser");
@@ -110,8 +140,9 @@ function InventoryLayout() {
       });
       setItems((prev) => [newItem, ...prev]);
       setForm({ itemName: "", category: "", quantity: "", minLevel: "" });
+      await syncForecast();
     } catch (error) {
-      alert(error.message || "Server not reachable. Please start backend.");
+      alert(error.message || "Unable to add the stock item right now.");
     }
   };
 
@@ -119,8 +150,9 @@ function InventoryLayout() {
     try {
       await removeInventoryItem(id);
       setItems((prev) => prev.filter((x) => x.id !== id));
+      await syncForecast();
     } catch (error) {
-      alert(error.message || "Server not reachable. Please start backend.");
+      alert(error.message || "Unable to delete the stock item right now.");
     }
   };
 
@@ -148,9 +180,10 @@ function InventoryLayout() {
         minLevel,
       });
       setItems((prev) => prev.map((x) => (x.id === id ? updated : x)));
+      await syncForecast();
       return true;
     } catch (error) {
-      alert(error.message || "Server not reachable. Please start backend.");
+      alert(error.message || "Unable to update the stock item right now.");
       return false;
     }
   };
@@ -169,8 +202,9 @@ function InventoryLayout() {
         minLevel: currentItem.minLevel,
       });
       setItems((prev) => prev.map((item) => (item.id === id ? updated : item)));
+      await syncForecast();
     } catch (error) {
-      alert(error.message || "Server not reachable. Please start backend.");
+      alert(error.message || "Unable to update stock quantity right now.");
     }
   };
 
@@ -192,8 +226,9 @@ function InventoryLayout() {
       const newOrder = await createOrder({ itemName, staffName, quantity });
       setOrders((prev) => [newOrder, ...prev]);
       setOrderForm({ itemName: "", quantity: "", staffName: "" });
+      await syncForecast();
     } catch (error) {
-      alert(error.message || "Server not reachable. Please start backend.");
+      alert(error.message || "Unable to create the order right now.");
     }
   };
 
@@ -213,8 +248,10 @@ function InventoryLayout() {
           prev.map((item) => (item.id === inventoryItem.id ? inventoryItem : item))
         );
       }
+
+      await syncForecast();
     } catch (error) {
-      alert(error.message || "Server not reachable. Please start backend.");
+      alert(error.message || "Unable to update the order right now.");
     }
   };
 
@@ -249,8 +286,9 @@ function InventoryLayout() {
         quantity: "",
         status: "In Progress",
       });
+      await syncForecast();
     } catch (error) {
-      alert(error.message || "Server not reachable. Please start backend.");
+      alert(error.message || "Unable to save the staff update right now.");
     }
   };
 
@@ -288,6 +326,10 @@ function InventoryLayout() {
     staffLogsLoading,
     items,
     totals,
+    forecast,
+    forecastModel,
+    forecastSummary,
+    forecastLoading,
     form,
     orderForm,
     orders,
@@ -362,7 +404,7 @@ function InventoryLayout() {
         }}
       >
         <div className="stock-dash-top">
-          <h2>Inventory Operations Dashboard</h2>
+          <h2>Inventory Dashboard</h2>
           <div className="kpi-inline">
             <span>Items: {totals.totalItems}</span>
             <span>Units: {totals.totalUnits}</span>
@@ -370,11 +412,6 @@ function InventoryLayout() {
             <span>Out: {totals.outOfStock}</span>
             <span>Active Staff: {totals.activeStaff}</span>
           </div>
-        </div>
-
-        <div className="task-info">
-          <h3>Process Navigation</h3>
-          <p>Open each process as a separate page from the left menu.</p>
         </div>
 
         <div className="stock-dash-layout">

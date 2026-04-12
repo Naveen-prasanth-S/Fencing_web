@@ -51,15 +51,14 @@ export default function Login() {
 
       const data = await response.json();
       if (!response.ok || !data.success) {
-        alert(data.message || "Login failed");
+        alert(data.message || "Unable to sign in");
         return;
       }
 
       sessionStorage.setItem("authUser", JSON.stringify(data.user));
-      alert("Login successful");
       navigate(data.user?.role === "staff" ? "/staff/home" : "/");
     } catch (_error) {
-      alert("Server not reachable. Please start backend.");
+      alert("Unable to sign in right now. Please try again.");
     }
   };
 
@@ -71,8 +70,7 @@ export default function Login() {
       }}
     >
       <div className="login-card">
-        <h2 className="login-title">Welcome Back</h2>
-        <p className="login-subtitle">Sign in to continue</p>
+        <h2 className="login-title">Login</h2>
 
         <div className="field">
           <input

@@ -53,10 +53,7 @@ function StockListPage() {
 
   return (
     <div className="panel-card">
-      <h3>Stock Details & CRUD Operations</h3>
-      <p className="page-note">
-        Create, view, update, and delete stock records from this page.
-      </p>
+      <h3>Stock Management</h3>
 
       <div className="entry-form mb-3">
         <input

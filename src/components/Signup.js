@@ -101,7 +101,7 @@ export default function Signup() {
       alert(`${isStaff ? "Staff" : "Admin"} account created successfully`);
       navigate("/login");
     } catch (_error) {
-      alert("Server not reachable. Please start backend.");
+      alert("Unable to create the account right now. Please try again.");
     }
   };
 
@@ -114,9 +114,6 @@ export default function Signup() {
     >
       <div className="signup-card">
         <h2 className="signup-title">{isStaff ? "Staff" : "Admin"} Signup</h2>
-        <p className="signup-subtitle">
-          Create your account to access the platform
-        </p>
 
         <div className="role-switch">
           <button

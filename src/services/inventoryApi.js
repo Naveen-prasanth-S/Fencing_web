@@ -88,6 +88,20 @@ export async function getStaffLogs() {
   return data.logs || [];
 }
 
+export async function getReorderPredictions() {
+  const response = await fetch(`${API_BASE_URL}/ml/reorder-predictions`);
+  const data = await parseApiResponse(
+    response,
+    "Failed to load reorder predictions"
+  );
+
+  return {
+    model: data.model || null,
+    summary: data.summary || null,
+    predictions: data.predictions || [],
+  };
+}
+
 export async function createStaffLog(payload) {
   const response = await fetch(`${API_BASE_URL}/inventory/staff-logs`, {
     method: "POST",

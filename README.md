@@ -15,6 +15,55 @@ FencingMS is a fencing company management app with customer pages, admin and sta
 - Express
 - MongoDB with Mongoose
 - Nodemailer
+- Lightweight demand forecast engine for smart inventory predictions
+
+## ML Module In This Project
+
+This project now includes a smart reorder forecast module for the inventory dashboard.
+
+### What the ML module does
+
+- Reads inventory items, delivered orders, and staff task activity
+- Studies recent demand patterns for each item
+- Predicts the next 7 days of material demand
+- Recommends reorder quantity before stock runs low
+- Marks risky items with urgency levels like `High`, `Medium`, and `Low`
+
+### Where it is used
+
+- Backend prediction logic: `backend/demandForecast.js`
+- Backend API route: `GET /ml/reorder-predictions`
+- Frontend API client: `src/services/inventoryApi.js`
+- Admin dashboard display: `src/components/inventory/InventoryOverview.js`
+
+### How it works
+
+The forecasting module uses:
+
+- delivered order history as the strongest demand signal
+- completed staff logs as supporting usage history
+- pending orders and in-progress tasks as near-future demand signals
+- recent averages and a trend slope to estimate the next 7 days
+
+### How to use it in the app
+
+1. Run the backend and frontend normally.
+2. Open the admin inventory dashboard.
+3. Add stock items, create orders, and update staff task activity.
+4. Open `Inventory -> Dashboard`.
+5. Check the `Smart Reorder Forecast` section.
+
+The dashboard will show:
+
+- predicted 7-day demand
+- recommended reorder quantity
+- days until low stock
+- urgency level
+- model confidence
+
+### Important note
+
+This is a lightweight business forecasting model built inside the Node.js project. Its predictions improve when the app has more real order and staff activity history in MongoDB.
 
 ## Prerequisites
 

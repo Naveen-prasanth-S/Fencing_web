@@ -11,6 +11,7 @@ const {
   getRatesByHeight,
   calculateFence,
 } = require("./fenceCalculator");
+const { buildForecast } = require("./demandForecast");
 
 dotenv.config({ path: path.join(__dirname, ".env") });
 
@@ -440,6 +441,34 @@ app.get("/inventory/staff-logs", async (_req, res) => {
     return res.status(500).json({
       success: false,
       message: "Failed to fetch staff logs",
+    });
+  }
+});
+
+app.get("/ml/reorder-predictions", async (_req, res) => {
+  try {
+    const [items, orders, staffLogs] = await Promise.all([
+      InventoryItem.find().lean(),
+      StockOrder.find().lean(),
+      StaffLog.find().lean(),
+    ]);
+
+    const forecast = buildForecast({
+      items,
+      orders,
+      staffLogs,
+    });
+
+    return res.json({
+      success: true,
+      model: forecast.model,
+      summary: forecast.summary,
+      predictions: forecast.predictions,
+    });
+  } catch (_error) {
+    return res.status(500).json({
+      success: false,
+      message: "Failed to generate reorder predictions",
     });
   }
 });
